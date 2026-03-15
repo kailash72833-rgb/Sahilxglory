@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAHILxGLORY | Admin Master Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- GENERAL --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background-color: #040b16; color: #fff; display: flex; min-height: 100vh; overflow-x: hidden; position: relative; }
+        .hidden { display: none !important; }
+
+        /* --- SIDEBAR --- */
+        .sidebar { width: 250px; background-color: #172134; border-right: 1px solid #334155; display: flex; flex-direction: column; padding: 20px 0; transition: 0.3s; z-index: 1000; }
+        .sidebar-brand { color: #38bdf8; font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 30px; letter-spacing: 1px; }
+        .nav-menu { display: flex; flex-direction: column; gap: 5px; padding: 0 15px; }
+        .nav-item { padding: 12px 20px; color: #94a3b8; font-size: 14px; font-weight: 500; border-radius: 10px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px; }
+        .nav-item:hover { background: rgba(56, 189, 248, 0.1); color: #38bdf8; }
+        .nav-item.active { background: #38bdf8; color: #040b16; font-weight: 600; }
+        .logout-btn { margin-top: auto; margin-bottom: 20px; margin-left: 15px; margin-right: 15px; padding: 12px; text-align: center; background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid #ef4444; border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.3s; font-size: 13px; text-decoration: none; display: block; }
+        .logout-btn:hover { background: #ef4444; color: #fff; }
+
+        /* --- MAIN CONTENT --- */
+        .main-content { flex: 1; display: flex; flex-direction: column; background: linear-gradient(180deg, #09192e 0%, #040b16 100%); }
+        .topbar { background-color: #172134; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; position: sticky; top: 0; z-index: 500; }
+        .topbar h2 { font-size: 18px; font-weight: 600; color: #fff; }
+        .admin-profile { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; color: #38bdf8; }
+        .content-area { padding: 20px; overflow-y: auto; flex: 1; padding-bottom: 80px; }
+
+        /* --- DASHBOARD CARDS --- */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .stat-card { background-color: #172134; padding: 20px; border-radius: 12px; border: 1px solid #334155; position: relative; overflow: hidden; }
+        .stat-card::before { content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: #38bdf8; }
+        .stat-card.green::before { background: #34d399; }
+        .stat-card.red::before { background: #f87171; }
+        .stat-title { color: #94a3b8; font-size: 12px; font-weight: 500; margin-bottom: 5px; }
+        .stat-value { font-size: 24px; font-weight: 700; color: #fff; }
+
+        /* --- TABLES & CONTAINERS --- */
+        .container-box { background-color: #172134; border-radius: 15px; border: 1px solid #334155; padding: 20px; margin-bottom: 25px; overflow-x: auto; position: relative; }
+        .section-header { font-size: 16px; font-weight: 600; margin-bottom: 15px; color: #38bdf8; display: flex; justify-content: space-between; align-items: center; }
+        table { width: 100%; border-collapse: collapse; min-width: 900px; table-layout: fixed; }
+        th, td { padding: 12px 10px; text-align: left; border-bottom: 1px solid #334155; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        th { color: #94a3b8; font-weight: 500; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
+        td { color: #cbd5e1; position: relative; }
+        tr:hover td { background-color: rgba(255, 255, 255, 0.02); }
+
+        /* Editable Cells */
+        [contenteditable="true"] { border-bottom: 1px dashed transparent; padding-right: 15px; transition: border-color 0.2s; cursor: text; }
+        [contenteditable="true"]:focus { outline: none; border-color: #38bdf8; background: rgba(56, 189, 248, 0.05); }
+        [contenteditable="true"]::after { content: '✎'; position: absolute; right: 5px; top: 50%; transform: translateY(-50%); font-size: 10px; color: #64748b; opacity: 0; transition: opacity 0.2s; }
+        td:hover [contenteditable="true"]::after { opacity: 1; }
+
+        /* Badges & Status Dropdowns */
+        .badge { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 600; display: inline-block; text-transform: capitalize; }
+        .bg-pending { background: rgba(245, 158, 11, 0.1); color: #fbbf24; border: 1px solid #fbbf24; }
+        .bg-processing { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border: 1px solid #38bdf8; }
+        .bg-completed { background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid #34d399; }
+        .bg-rejected { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid #f87171; }
+        .bg-active { background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid #34d399; }
+        .bg-banned { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid #f87171; }
+
+        .status-dropdown { background: none; border: 1px solid transparent; color: inherit; font-family: inherit; font-size: inherit; cursor: pointer; outline: none; -webkit-appearance: none; -moz-appearance: none; appearance: none; padding-right: 15px; transition: 0.2s; }
+        .status-dropdown:hover { border-color: rgba(255, 255, 255, 0.2); }
+        .status-cell { position: relative; }
+        .status-cell::after { content: '▼'; font-size: 8px; position: absolute; right: 5px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #64748b; }
+
+        /* Action Buttons */
+        .action-btns { display: flex; gap: 6px; }
+        .btn-sm { padding: 5px 10px; border: none; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-approve { background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid #34d399; }
+        .btn-approve:hover { background: #34d399; color: #000; }
+        .btn-reject { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid #f87171; }
+        .btn-reject:hover { background: #f87171; color: #fff; }
+        .btn-delete { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid #f87171; }
+        .btn-delete:hover { background: #f87171; color: #fff; }
+        .btn-edit { background: rgba(56, 189, 248, 0.1); color: #38bdf8; border: 1px solid #38bdf8; }
+        .btn-edit:hover { background: #38bdf8; color: #000; }
+        .btn-action-primary { background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%); color: white; margin-bottom: 10px;}
+
+        /* --- ADMIN SETTINGS --- */
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; color: #cbd5e1; font-size: 12px; margin-bottom: 5px; font-weight: 500;}
+        .input-group input { width: 100%; padding: 10px; border-radius: 8px; background: transparent; border: 1px solid #334155; color: #fff; outline: none; transition: 0.3s; font-size: 13px; max-width: 400px;}
+        .input-group input:focus { border-color: #38bdf8; background: rgba(56, 189, 248, 0.03); }
+
+        /* --- RESPONSIVE ADJUSTMENTS --- */
+        @media (max-width: 768px) {
+            body { flex-direction: column-reverse; }
+            .sidebar { width: 100%; height: auto; border-right: none; border-top: 1px solid #334155; padding: 10px 0; border-radius: 15px 15px 0 0; position: fixed; bottom: 0; left: 0; flex-direction: row; justify-content: space-around; }
+            .sidebar-brand { display: none; }
+            .nav-menu { flex-direction: row; gap: 0; padding: 0; }
+            .nav-item { flex-direction: column; align-items: center; padding: 10px; border-radius: 0; font-size: 10px; gap: 3px; font-weight: 500; text-align: center;}
+            .nav-item.active { background: transparent; color: #38bdf8; }
+            .logout-btn { display: none; }
+            .topbar { padding: 15px; border-bottom: 1px solid #334155;}
+            .main-content { padding-bottom: 60px; }
+            .content-area { padding: 15px; padding-bottom: 80px; }
+            .stat-value { font-size: 22px;}
+            th, td { font-size: 12px; padding: 10px 8px;}
+        }
+
+        /* --- PERSONALIZED FOOTER --- */
+        .page-footer { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; text-align: center; color: rgba(255, 255, 255, 0.4); font-size: 11px; letter-spacing: 1.5px; z-index: 100; pointer-events: none; border-top: 1px solid rgba(56, 189, 248, 0.05); padding: 15px; transition: opacity 0.3s;}
+        .main-content:hover .page-footer,
+        .sidebar:hover ~ .main-content .page-footer { opacity: 1; pointer-events: auto; }
+        .page-footer span { color: #38bdf8; font-weight: bold; text-shadow: 0 0 5px rgba(56, 189, 248, 0.3); }
+        .page-footer .dev { color: #ff007f; font-weight: bold; text-shadow: 0 0 5px rgba(255, 0, 127, 0.3); }
+
+        /* Fade animation */
+        .fade-in { animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-brand">ADMIN MASTER</div>
+        <div class="nav-menu">
+            <div class="nav-item active" id="nav-dash" onclick="switchSection('dash')">📊 Dashboard</div>
+            <div class="nav-item" id="nav-deposits" onclick="switchSection('deposits')">💰 Deposits</div>
+            <div class="nav-item" id="nav-orders" onclick="switchSection('orders')">🎮 Glory Orders</div>
+            <div class="nav-item" id="nav-users" onclick="switchSection('users')">👥 Users</div>
+            <div class="nav-item" id="nav-packages" onclick="switchSection('packages')">📦 Packages</div>
+            <div class="nav-item" id="nav-settings" onclick="switchSection('settings')">⚙️ Settings</div>
+        </div>
+        <a href="/logout" class="logout-btn">Logout Master Admin</a>
+    </aside>
+
+    <main class="main-content">
+        <div class="topbar">
+            <h2 id="page-title">Dashboard Overview</h2>
+            <div class="admin-profile">Master @Brexxee</div>
+        </div>
+
+        <div class="content-area">
+            <div id="dash-section" class="fade-in">
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-title">Total Users</div><div class="stat-value">1,248</div></div>
+                    <div class="stat-card green"><div class="stat-title">Total Revenue</div><div class="stat-value">₹45,200</div></div>
+                    <div class="stat-card red"><div class="stat-title">Pending Deposits</div><div class="stat-value">12</div></div>
+                    <div class="stat-card"><div class="stat-title">Pending Orders</div><div class="stat-value">8</div></div>
+                </div>
+                <div class="container-box">
+                    <div class="section-header">Recent System Activity</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 25%">Timestamp</th>
+                                <th style="width: 25%">User Email</th>
+                                <th style="width: 50%">Activity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>15 Mar 2026 14:30</td>
+                                <td>user123@gmail.com</td>
+                                <td>New glory order <span style="color:#38bdf8; font-weight: bold;">ORD-9901</span> (20k Glory) received.</td>
+                            </tr>
+                            <tr>
+                                <td>15 Mar 2026 14:15</td>
+                                <td>gamer_pro@yahoo.com</td>
+                                <td>Deposit request <span style="color:#fbbf24; font-weight: bold;">312345678901</span> (₹550) submitted.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="deposits-section" class="hidden">
+                <div class="container-box">
+                    <div class="section-header">Manage Deposit Requests (Edit amount/status)</div>
+                    <p style="color: #94a3b8; font-size: 11px; margin-bottom: 10px;">Click on user email or amount to edit. Use dropdown for status.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 25%">User Email</th>
+                                <th style="width: 15%">Amount (₹)</th>
+                                <th style="width: 20%">UTR Number</th>
+                                <th style="width: 20%">Status</th>
+                                <th style="width: 20%">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td contenteditable="true">user123@gmail.com</td>
+                                <td contenteditable="true" style="color: #fff; font-weight: bold;">550</td>
+                                <td style="color: #fff;">312345678901</td>
+                                <td class="status-cell">
+                                    <select class="badge bg-pending status-dropdown" onchange="updateDepositStatus(this, 'Pending')">
+                                        <option value="Pending" class="bg-pending" selected>Pending</option>
+                                        <option value="Approved" class="bg-success">Approved</option>
+                                        <option value="Rejected" class="bg-rejected">Rejected</option>
+                                    </select>
+                                </td>
+                                <td class="action-btns">
+                                    <button class="btn-sm btn-approve" onclick="alert('Funds added!')">Approve</button>
+                                    <button class="btn-sm btn-delete">Delete Log</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="orders-section" class="hidden">
+                <div class="container-box">
+                    <div class="section-header">Glory Orders Management (Edit data/status)</div>
+                    <p style="color: #94a3b8; font-size: 11px; margin-bottom: 10px;">Guild UID, Name, Contact fields are editable.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 10%">Order ID</th>
+                                <th style="width: 15%">Package</th>
+                                <th style="width: 15%">Guild UID</th>
+                                <th style="width: 15%">Guild Name</th>
+                                <th style="width: 15%">Contact</th>
+                                <th style="width: 15%">Status</th>
+                                <th style="width: 15%">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="color: #fff;">ORD-9901</td>
+                                <td>20k Glory<br><span style="font-size: 10px; color:#94a3b8;">₹220</span></td>
+                                <td contenteditable="true">102938475</td>
+                                <td contenteditable="true">EliteSquad</td>
+                                <td contenteditable="true">@tg_user<br>9876543210</td>
+                                <td class="status-cell">
+                                    <select class="badge bg-pending status-dropdown" onchange="updateOrderStatus(this, 'Not Started')">
+                                        <option value="Not Started" class="bg-not-started" selected>Not Started</option>
+                                        <option value="Processing" class="bg-processing">Processing</option>
+                                        <option value="Completed" class="bg-completed">Completed</option>
+                                    </select>
+                                </td>
+                                <td class="action-btns">
+                                    <button class="btn-sm btn-approve" onclick="alert('Order Completed!')">Mark Done</button>
+                                    <button class="btn-sm btn-reject">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="users-section" class="hidden">
+                <div class="container-box">
+                    <div class="section-header">Detailed User Management</div>
+                    <p style="color: #94a3b8; font-size: 11px; margin-bottom: 10px;">Balance, Name, Email fields are editable.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 30%">User Email</th>
+                                <th style="width: 25%">Full Name</th>
+                                <th style="width: 15%">Wallet (₹)</th>
+                                <th style="width: 15%">Status</th>
+                                <th style="width: 15%">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td contenteditable="true">user123@gmail.com</td>
+                                <td contenteditable="true">Kailash Kumar</td>
+                                <td contenteditable="true" style="color: #fff; font-weight: bold;">₹0.00</td>
+                                <td class="status-cell">
+                                    <select class="badge bg-active status-dropdown" onchange="updateUserStatus(this, 'Active')">
+                                        <option value="Active" class="bg-success" selected>Active</option>
+                                        <option value="Banned" class="bg-rejected">Banned</option>
+                                    </select>
+                                </td>
+                                <td class="action-btns">
+                                    <button class="btn-sm btn-edit">Save</button>
+                                    <button class="btn-sm btn-reject">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="packages-section" class="hidden">
+                <div class="container-box">
+                    <div class="section-header">Manage Glory Packages <button class="btn-sm btn-action-primary">+ Add New Package</button></div>
+                    <p style="color: #94a3b8; font-size: 11px; margin-bottom: 10px;">Click on any field to edit package data.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 20%">Package Name</th>
+                                <th style="width: 15%">Glory Amt</th>
+                                <th style="width: 15%">Price (₹)</th>
+                                <th style="width: 30%">Description</th>
+                                <th style="width: 20%">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td contenteditable="true">Basic Pack</td>
+                                <td contenteditable="true">5k Glory</td>
+                                <td contenteditable="true">70</td>
+                                <td contenteditable="true">Basic package to get you started.</td>
+                                <td class="action-btns">
+                                    <button class="btn-sm btn-edit">Save</button>
+                                    <button class="btn-sm btn-delete">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="settings-section" class="hidden">
+                <div class="container-box">
+                    <div class="section-header">Portal Settings</div>
+                    <div class="input-group">
+                        <label>Portal Primary UPI ID</label>
+                        <input type="text" id="upi_id_setting" value="sita9511@ptyes" required>
+                        <button class="btn-sm btn-edit" style="margin-top: 5px;">Update UPI ID</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            Designed by <span>KAILASH KUMAR</span> | Master Developer: <span class="dev">@Brexxee</span>
+        </div>
+    </main>
+
+    <script>
+        const pageTitles = {
+            'dash': 'Dashboard Overview',
+            'deposits': 'Manage Deposits',
+            'orders': 'Glory Orders Management',
+            'users': 'Detailed User Management',
+            'packages': 'Glory Packages Configuration',
+            'settings': 'Admin Settings'
+        };
+
+        function switchSection(section) {
+            document.getElementById('dash-section').classList.add('hidden');
+            document.getElementById('deposits-section').classList.add('hidden');
+            document.getElementById('orders-section').classList.add('hidden');
+            document.getElementById('users-section').classList.add('hidden');
+            document.getElementById('packages-section').classList.add('hidden');
+            document.getElementById('settings-section').classList.add('hidden');
+            
+            document.getElementById('nav-dash').classList.remove('active');
+            document.getElementById('nav-deposits').classList.remove('active');
+            document.getElementById('nav-orders').classList.remove('active');
+            document.getElementById('nav-users').classList.remove('active');
+            document.getElementById('nav-packages').classList.remove('active');
+            document.getElementById('nav-settings').classList.remove('active');
+
+            let selSection = document.getElementById(section + '-section');
+            selSection.classList.remove('hidden');
+            selSection.classList.remove('fade-in');
+            void selSection.offsetWidth; 
+            selSection.classList.add('fade-in');
+
+            document.getElementById('nav-' + section).classList.add('active');
+            document.getElementById('page-title').innerText = pageTitles[section];
+        }
+
+        function updateDepositStatus(selectElem, oldStatus) {
+            const newStatus = selectElem.value;
+            selectElem.classList.remove('bg-pending', 'bg-processing', 'bg-completed', 'bg-rejected');
+            if(newStatus === 'Approved'){ selectElem.classList.add('bg-success'); }
+            else if(newStatus === 'Rejected'){ selectElem.classList.add('bg-rejected'); }
+            else { selectElem.classList.add('bg-pending'); }
+        }
+
+        function updateOrderStatus(selectElem, oldStatus) {
+            const newStatus = selectElem.value;
+            selectElem.classList.remove('bg-pending', 'bg-processing', 'bg-completed', 'bg-rejected');
+            if(newStatus === 'Completed'){ selectElem.classList.add('bg-completed'); }
+            else if(newStatus === 'Processing'){ selectElem.classList.add('bg-processing'); }
+            else { selectElem.classList.add('bg-pending'); }
+        }
+
+        function updateUserStatus(selectElem, oldStatus) {
+            const newStatus = selectElem.value;
+            selectElem.classList.remove('bg-success', 'bg-rejected');
+            if(newStatus === 'Active'){ selectElem.classList.add('bg-success'); }
+            else { selectElem.classList.add('bg-rejected'); }
+        }
+    </script>
+</body>
+</html>
