@@ -9,34 +9,28 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
         body { background: linear-gradient(180deg, #09192e 0%, #040b16 100%); color: #fff; min-height: 100vh; display: flex; flex-direction: column; padding-bottom: 80px; }
 
-        /* --- TOP NAVBAR --- */
         .navbar { background-color: #172134; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid #334155; }
         .nav-brand { color: #38bdf8; font-size: 20px; font-weight: 800; letter-spacing: 1px; }
         .balance { background: rgba(56, 189, 248, 0.1); border: 1px solid #38bdf8; padding: 5px 15px; border-radius: 20px; color: #38bdf8; font-weight: 600; font-size: 14px; }
 
-        /* --- MAIN CONTENT --- */
         .main-content { padding: 30px 20px; flex-grow: 1; max-width: 1200px; margin: 0 auto; width: 100%; }
         .header-section { margin-bottom: 30px; text-align: center; }
         .header-section h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
         .header-section p { color: #94a3b8; font-size: 14px; }
 
-        /* --- PACKAGES GRID --- */
         .packages-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; justify-content: center; }
         .package-card { background-color: #172134; border-radius: 20px; padding: 25px; text-align: center; border: 1px solid #334155; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); position: relative; overflow: hidden; }
         .package-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%); }
-        .glory-amount { color: #38bdf8; font-size: 24px; font-weight: 800; margin-bottom: 10px; text-shadow: 0 0 10px rgba(56, 189, 248, 0.3); }
+        .glory-amount { color: #38bdf8; font-size: 24px; font-weight: 800; margin-bottom: 10px; }
         .price-tag { font-size: 32px; font-weight: 700; margin-bottom: 5px; }
         .price-currency { font-size: 16px; color: #94a3b8; vertical-align: super; }
         .badge-value { position: absolute; top: 15px; right: -30px; background: #ef4444; color: white; padding: 5px 30px; font-size: 10px; font-weight: 700; transform: rotate(45deg); }
 
-        /* Buttons */
         .buy-btn { width: 100%; padding: 12px; border: none; border-radius: 10px; background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%); color: white; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 15px; transition: 0.3s; }
         .buy-btn:active { transform: scale(0.98); }
         .disabled-btn { background: #334155 !important; color: #94a3b8 !important; cursor: not-allowed !important; transform: none !important; }
-        .logout-btn-full { width: 100%; padding: 12px; border: 1px solid #ef4444; border-radius: 10px; background: rgba(239, 68, 68, 0.1); color: #ef4444; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 25px; transition: 0.3s; display: block; text-align: center; text-decoration: none;}
-        .logout-btn-full:hover { background: #ef4444; color: #fff; }
-
-        /* --- PURCHASES & PROFILE SECTION --- */
+        .logout-btn-full { width: 100%; padding: 12px; border: 1px solid #ef4444; border-radius: 10px; background: rgba(239, 68, 68, 0.1); color: #ef4444; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 25px; display: block; text-align: center; text-decoration: none;}
+        
         .order-card { background-color: #172134; border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid #334155; display: flex; flex-direction: column; gap: 10px; }
         .order-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 10px; }
         .order-title { font-size: 18px; font-weight: 700; color: #38bdf8; }
@@ -44,56 +38,46 @@
         .order-details { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #94a3b8; margin-top: 5px; }
         
         .status { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-        .status-not-started { background: rgba(148, 163, 184, 0.1); color: #94a3b8; border: 1px solid #94a3b8; }
         .status-processing { background: rgba(245, 158, 11, 0.1); color: #fbbf24; border: 1px solid #fbbf24; }
         .status-completed { background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid #34d399; }
 
         .deposit-box { background-color: #172134; border-radius: 20px; padding: 25px; border: 1px solid #334155; max-width: 500px; margin: 0 auto; }
-        
-        /* QR Code Styling */
-        .qr-placeholder { width: 160px; height: 160px; margin: 0 auto 20px; background: #0f172a; border-radius: 15px; display: flex; align-items: center; justify-content: center; padding: 0; border: 2px solid #38bdf8; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .qr-placeholder { width: 160px; height: 160px; margin: 0 auto 20px; background: #0f172a; border-radius: 15px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid #38bdf8; }
         .qr-placeholder img { width: 100%; height: 100%; object-fit: cover; }
         
         .upi-id-box { text-align: center; background: rgba(56, 189, 248, 0.1); padding: 12px; border-radius: 10px; border: 1px solid #38bdf8; margin-bottom: 25px; }
-        .upi-text { font-size: 14px; color: #94a3b8; margin-bottom: 5px; }
-        .upi-value { font-size: 18px; font-weight: 700; color: #38bdf8; letter-spacing: 1px; }
+        .upi-value { font-size: 18px; font-weight: 700; color: #38bdf8; }
 
         .input-group { margin-bottom: 15px; text-align: left; }
         .input-group label { display: block; color: #cbd5e1; font-size: 13px; margin-bottom: 5px; }
-        .input-group input { width: 100%; padding: 12px; border-radius: 10px; background: transparent; border: 1px solid #334155; color: #fff; outline: none; transition: 0.3s; font-size: 14px; }
+        .input-group input { width: 100%; padding: 12px; border-radius: 10px; background: transparent; border: 1px solid #334155; color: #fff; outline: none; font-size: 14px; }
         .input-group input:focus { border-color: #38bdf8; }
 
-        /* --- MODAL (POPUP) STYLES --- */
+        /* MODAL */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s ease; padding: 20px; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background-color: #172134; width: 100%; max-width: 400px; border-radius: 20px; padding: 25px; border: 1px solid #38bdf8; box-shadow: 0 10px 40px rgba(0,0,0,0.5); position: relative; transform: translateY(20px); transition: 0.3s ease; max-height: 90vh; overflow-y: auto; }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
-        .close-btn { position: absolute; top: 15px; right: 20px; color: #94a3b8; font-size: 24px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .close-btn:hover { color: #ef4444; }
-        
+        .modal-content { background-color: #172134; width: 100%; max-width: 400px; border-radius: 20px; padding: 25px; border: 1px solid #38bdf8; position: relative; max-height: 90vh; overflow-y: auto; }
+        .close-btn { position: absolute; top: 15px; right: 20px; color: #94a3b8; font-size: 24px; font-weight: bold; cursor: pointer; }
         .modal-title { font-size: 22px; font-weight: 800; color: #38bdf8; margin-bottom: 10px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
-        .modal-desc { font-size: 14px; color: #cbd5e1; margin-bottom: 20px; }
         .modal-price-tag { font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 20px; }
         
-        /* --- BOTTOM NAV & FOOTER --- */
+        /* BOTTOM NAV */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #172134; border-top: 1px solid #334155; display: flex; justify-content: space-around; padding: 12px 0; z-index: 100; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: #64748b; cursor: pointer; font-size: 12px; font-weight: 500; width: 33%; transition: 0.3s; }
-        .nav-item svg { width: 24px; height: 24px; fill: #64748b; margin-bottom: 4px; transition: 0.3s; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: #64748b; cursor: pointer; font-size: 12px; font-weight: 500; width: 33%; }
+        .nav-item svg { width: 24px; height: 24px; fill: #64748b; margin-bottom: 4px; }
         .nav-item.active { color: #38bdf8; } .nav-item.active svg { fill: #38bdf8; }
 
         .hidden { display: none !important; }
         .fade-in { animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
         .dev-tag { text-align: center; color: #64748b; font-size: 12px; margin-top: 30px; }
-        .dev-tag span { color: #3a7bd5; font-weight: 600; }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
         <div class="nav-brand">SAHILxGLORY</div>
-        <div class="balance" id="displayBalance">₹500.00</div>
+        <div class="balance" id="displayBalance">₹{{ balance | default(0) }}</div>
     </nav>
 
     <main class="main-content">
@@ -106,34 +90,28 @@
                 <div class="package-card">
                     <div class="glory-amount">5k Glory</div>
                     <div class="price-tag"><span class="price-currency">₹</span>70</div>
-                    <button class="buy-btn" onclick="openModal('5k Glory', 70, 'Basic package to get you started on your glory journey.')">Buy Now</button>
+                    <button class="buy-btn" onclick="openModal('5k Glory', 70)">Buy Now</button>
                 </div>
                 <div class="package-card">
                     <div class="glory-amount">10k Glory</div>
                     <div class="price-tag"><span class="price-currency">₹</span>110</div>
-                    <button class="buy-btn" onclick="openModal('10k Glory', 110, 'Standard boost for your profile. Fast delivery guaranteed.')">Buy Now</button>
+                    <button class="buy-btn" onclick="openModal('10k Glory', 110)">Buy Now</button>
                 </div>
                 <div class="package-card">
                     <div class="glory-amount">20k Glory</div>
                     <div class="price-tag"><span class="price-currency">₹</span>220</div>
-                    <button class="buy-btn" onclick="openModal('20k Glory', 220, 'Highly recommended for competitive players looking to rank up.')">Buy Now</button>
+                    <button class="buy-btn" onclick="openModal('20k Glory', 220)">Buy Now</button>
                 </div>
                 <div class="package-card">
                     <div class="glory-amount">50k - 5 Lakh</div>
                     <div class="price-tag"><span class="price-currency">₹</span>330</div>
-                    <button class="buy-btn" onclick="openModal('50k - 5 Lakh', 330, 'Massive glory boost to dominate the leaderboards.')">Buy Now</button>
+                    <button class="buy-btn" onclick="openModal('50k - 5 Lakh', 330)">Buy Now</button>
                 </div>
                 <div class="package-card">
                     <div class="badge-value">VIP</div>
                     <div class="glory-amount">7 Level Glory</div>
                     <div class="price-tag"><span class="price-currency">₹</span>550</div>
-                    <button class="buy-btn" onclick="openModal('7 Level Glory', 550, 'Unlock 7th Level prestige immediately with this VIP package.')">Buy Now</button>
-                </div>
-                <div class="package-card">
-                    <div class="badge-value">MAX</div>
-                    <div class="glory-amount">MAX GLORY</div>
-                    <div class="price-tag"><span class="price-currency">₹</span>1100</div>
-                    <button class="buy-btn" onclick="openModal('MAX GLORY', 1100, 'The ultimate package. Max out your glory instantly.')">Buy Now</button>
+                    <button class="buy-btn" onclick="openModal('7 Level Glory', 550)">Buy Now</button>
                 </div>
             </div>
         </div>
@@ -143,18 +121,25 @@
                 <h1>My Purchases</h1>
                 <p>Track your order status here.</p>
             </div>
-            <div class="order-card">
-                <div class="order-header"><div class="order-title">20k Glory</div><div class="order-price">₹220</div></div>
-                <div class="order-details"><div>Order ID: #ORD-9901</div><div class="status status-not-started">Not Started</div></div>
-            </div>
-            <div class="order-card">
-                <div class="order-header"><div class="order-title">10k Glory</div><div class="order-price">₹110</div></div>
-                <div class="order-details"><div>Order ID: #ORD-9823</div><div class="status status-processing">Processing</div></div>
-            </div>
-            <div class="order-card">
-                <div class="order-header"><div class="order-title">5k Glory</div><div class="order-price">₹70</div></div>
-                <div class="order-details"><div>Order ID: #ORD-8812</div><div class="status status-completed">Completed</div></div>
-            </div>
+            
+            {% if orders %}
+                {% for order in orders %}
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-title">{{ order.package }}</div>
+                        <div class="order-price">₹{{ order.price }}</div>
+                    </div>
+                    <div class="order-details">
+                        <div>UID: {{ order.guild_uid }}</div>
+                        <div class="status status-processing">{{ order.status }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; color: #94a3b8; padding: 30px;">
+                    You have no orders yet. Buy some glory!
+                </div>
+            {% endif %}
         </div>
 
         <div id="profile-section" class="hidden">
@@ -163,13 +148,11 @@
                 <p>Deposit money to your wallet to buy glory.</p>
             </div>
             <div class="deposit-box">
-                
                 <div class="qr-placeholder">
                     <img src="{{ url_for('static', filename='qr.jpg') }}" alt="QR Code">
                 </div>
-                
                 <div class="upi-id-box">
-                    <div class="upi-text">Or Pay via UPI ID</div>
+                    <div style="font-size: 14px; color: #94a3b8;">Or Pay via UPI ID</div>
                     <div class="upi-value">sita9511@ptyes</div>
                 </div>
                 <form method="POST" action="/dashboard">
@@ -183,12 +166,11 @@
                     </div>
                     <button type="submit" class="buy-btn">Submit Request</button>
                 </form>
-
                 <a href="/logout" class="logout-btn-full">Log Out</a>
             </div>
         </div>
 
-        <div class="dev-tag">Designed by <span>KAILASH KUMAR</span> | Developer ID: <span class="dev">@Brexxee</span></div>
+        <div class="dev-tag">Designed by KAILASH | @Brexxee</div>
     </main>
 
     <div class="bottom-nav">
@@ -200,84 +182,59 @@
     <div class="modal-overlay" id="purchaseModal">
         <div class="modal-content">
             <div class="close-btn" onclick="closeModal()">&times;</div>
-            
             <div id="modal-step-1">
                 <div class="modal-title" id="m-title">Package Name</div>
                 <div class="modal-price-tag" id="m-price">₹0</div>
-                <div class="modal-desc" id="m-desc">Package description goes here.</div>
-                
                 <div style="background: rgba(56, 189, 248, 0.1); padding: 10px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
                     <span style="color: #94a3b8; font-size: 12px;">Your Balance</span><br>
                     <span style="color: #38bdf8; font-weight: bold; font-size: 16px;" id="m-balance">₹0.00</span>
                 </div>
-
                 <button class="buy-btn" id="continueBtn" onclick="showFormStep()">Continue</button>
             </div>
-
             <div id="modal-step-2" class="hidden">
                 <div class="modal-title">Enter Details</div>
                 <form method="POST" action="/dashboard">
                     <input type="hidden" name="package_name" id="hidden-pkg-name">
                     <input type="hidden" name="package_price" id="hidden-pkg-price">
-                    
-                    <div class="input-group">
-                        <label>Guild UID</label>
-                        <input type="text" name="guild_uid" placeholder="Enter Guild UID" required>
-                    </div>
-                    <div class="input-group">
-                        <label>Guild Name</label>
-                        <input type="text" name="guild_name" placeholder="Enter Guild Name" required>
-                    </div>
-                    <div class="input-group">
-                        <label>Telegram Username</label>
-                        <input type="text" name="tg_username" placeholder="@username" required>
-                    </div>
-                    <div class="input-group">
-                        <label>WhatsApp / Phone Number</label>
-                        <input type="number" name="phone_number" placeholder="Enter Number" required>
-                    </div>
+                    <div class="input-group"><label>Guild UID</label><input type="text" name="guild_uid" required></div>
+                    <div class="input-group"><label>Guild Name</label><input type="text" name="guild_name" required></div>
+                    <div class="input-group"><label>Telegram Username</label><input type="text" name="tg_username" required></div>
+                    <div class="input-group"><label>Phone Number</label><input type="number" name="phone_number" required></div>
                     <button type="submit" class="buy-btn">Submit Order</button>
                 </form>
             </div>
-
         </div>
     </div>
 
     <script>
-        // Dummy balance for testing. Asli live ke liye Database lagana padega.
-        let userWalletBalance = 500; 
-        document.getElementById('displayBalance').innerText = '₹' + userWalletBalance;
+        // REAL BALANCE JAVASCRIPT ME PASS HUA
+        let userWalletBalance = {{ balance | default(0) }}; 
 
         function switchTab(tab) {
             document.getElementById('home-section').classList.add('hidden');
             document.getElementById('purchases-section').classList.add('hidden');
             document.getElementById('profile-section').classList.add('hidden');
-            
             document.getElementById('nav-home').classList.remove('active');
             document.getElementById('nav-purchases').classList.remove('active');
             document.getElementById('nav-profile').classList.remove('active');
-
+            
             let selectedSection = document.getElementById(tab + '-section');
             selectedSection.classList.remove('hidden');
             selectedSection.classList.remove('fade-in');
             void selectedSection.offsetWidth; 
             selectedSection.classList.add('fade-in');
-
             document.getElementById('nav-' + tab).classList.add('active');
             window.scrollTo(0, 0);
         }
 
-        function openModal(title, price, desc) {
+        function openModal(title, price) {
             document.getElementById('m-title').innerText = title;
             document.getElementById('m-price').innerText = '₹' + price;
-            document.getElementById('m-desc').innerText = desc;
             document.getElementById('m-balance').innerText = '₹' + userWalletBalance;
-
             document.getElementById('hidden-pkg-name').value = title;
             document.getElementById('hidden-pkg-price').value = price;
 
             let btn = document.getElementById('continueBtn');
-            
             if (userWalletBalance >= price) {
                 btn.innerText = "Continue";
                 btn.classList.remove('disabled-btn');
