@@ -7,70 +7,96 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-        body { background: linear-gradient(180deg, #09192e 0%, #040b16 100%); color: #fff; min-height: 100vh; display: flex; flex-direction: column; padding-bottom: 80px; }
+        body { 
+            background: linear-gradient(135deg, #020617 0%, #0f172a 100%); 
+            color: #fff; min-height: 100vh; display: flex; flex-direction: column; padding-bottom: 90px; 
+        }
 
-        .navbar { background-color: #172134; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid #334155; }
-        .nav-brand { color: #38bdf8; font-size: 20px; font-weight: 800; letter-spacing: 1px; }
-        .balance { background: rgba(56, 189, 248, 0.1); border: 1px solid #38bdf8; padding: 5px 15px; border-radius: 20px; color: #38bdf8; font-weight: 600; font-size: 14px; }
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+        }
+
+        .navbar { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(56, 189, 248, 0.2); }
+        .nav-brand { color: #38bdf8; font-size: 22px; font-weight: 800; letter-spacing: 1px; text-shadow: 0 0 10px rgba(56, 189, 248, 0.4); }
+        .balance { background: rgba(56, 189, 248, 0.1); border: 1px solid #38bdf8; padding: 6px 18px; border-radius: 20px; color: #38bdf8; font-weight: 700; font-size: 15px; box-shadow: 0 0 15px rgba(56, 189, 248, 0.2); }
 
         .main-content { padding: 30px 20px; flex-grow: 1; max-width: 1200px; margin: 0 auto; width: 100%; }
         .header-section { margin-bottom: 30px; text-align: center; }
-        .header-section h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .header-section h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .header-section p { color: #94a3b8; font-size: 14px; }
 
         .packages-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; justify-content: center; }
-        .package-card { background-color: #172134; border-radius: 20px; padding: 25px; text-align: center; border: 1px solid #334155; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); position: relative; overflow: hidden; }
+        .package-card { padding: 25px; text-align: center; position: relative; overflow: hidden; transition: transform 0.3s ease; }
+        .package-card:hover { transform: translateY(-5px); border-color: #38bdf8; box-shadow: 0 10px 40px rgba(56, 189, 248, 0.2); }
         .package-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%); }
-        .glory-amount { color: #38bdf8; font-size: 24px; font-weight: 800; margin-bottom: 10px; }
-        .price-tag { font-size: 32px; font-weight: 700; margin-bottom: 5px; }
-        .price-currency { font-size: 16px; color: #94a3b8; vertical-align: super; }
-        .badge-value { position: absolute; top: 15px; right: -30px; background: #ef4444; color: white; padding: 5px 30px; font-size: 10px; font-weight: 700; transform: rotate(45deg); }
+        .glory-amount { color: #fff; font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+        .price-tag { font-size: 34px; font-weight: 800; color: #38bdf8; margin-bottom: 5px; text-shadow: 0 0 15px rgba(56, 189, 248, 0.3); }
+        .price-currency { font-size: 18px; vertical-align: super; color: #cbd5e1; }
+        .badge-value { position: absolute; top: 15px; right: -35px; background: #ef4444; color: white; padding: 5px 40px; font-size: 11px; font-weight: 800; transform: rotate(45deg); box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4); }
+        .badge-max { background: #f59e0b; box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4); }
 
-        .buy-btn { width: 100%; padding: 12px; border: none; border-radius: 10px; background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%); color: white; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 15px; transition: 0.3s; }
-        .buy-btn:active { transform: scale(0.98); }
-        .disabled-btn { background: #334155 !important; color: #94a3b8 !important; cursor: not-allowed !important; transform: none !important; }
-        .logout-btn-full { width: 100%; padding: 12px; border: 1px solid #ef4444; border-radius: 10px; background: rgba(239, 68, 68, 0.1); color: #ef4444; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 25px; display: block; text-align: center; text-decoration: none;}
+        .buy-btn { width: 100%; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(90deg, #0ea5e9 0%, #2563eb 100%); color: white; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 15px; transition: 0.3s; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); }
+        .buy-btn:active { transform: scale(0.96); }
+        .disabled-btn { background: rgba(51, 65, 85, 0.5) !important; color: #94a3b8 !important; cursor: not-allowed !important; box-shadow: none !important; border: 1px solid #334155; }
         
-        .order-card { background-color: #172134; border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid #334155; display: flex; flex-direction: column; gap: 10px; }
-        .order-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 10px; }
-        .order-title { font-size: 18px; font-weight: 700; color: #38bdf8; }
-        .order-price { font-size: 16px; font-weight: 600; }
+        /* History Classes */
+        .history-title { font-size: 18px; color: #38bdf8; margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid rgba(56, 189, 248, 0.2); padding-bottom: 8px; margin-top: 25px; }
+        .order-card { padding: 20px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; transition: 0.3s; }
+        .order-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+        .order-title { font-size: 16px; font-weight: 700; color: #f8fafc; }
+        .order-price { font-size: 16px; font-weight: 700; color: #38bdf8; }
         .order-details { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #94a3b8; margin-top: 5px; }
         
-        .status { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-        .status-processing { background: rgba(245, 158, 11, 0.1); color: #fbbf24; border: 1px solid #fbbf24; }
-        .status-completed { background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid #34d399; }
+        .status { padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+        .status-processing { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .status-completed, .status-approved { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .status-rejected { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
 
-        .deposit-box { background-color: #172134; border-radius: 20px; padding: 25px; border: 1px solid #334155; max-width: 500px; margin: 0 auto; }
-        .qr-placeholder { width: 180px; height: 180px; margin: 0 auto 20px; background: #fff; border-radius: 15px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 3px solid #38bdf8; padding: 5px; }
-        .qr-placeholder img { width: 100%; height: 100%; object-fit: contain; }
+        /* Profile Classes */
+        .deposit-box { padding: 30px 25px; max-width: 500px; margin: 0 auto; text-align: center; }
+        .qr-placeholder { width: 180px; height: 180px; margin: 0 auto 20px; background: rgba(255,255,255,0.05); border-radius: 15px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px dashed rgba(56, 189, 248, 0.5); padding: 5px; }
+        .qr-placeholder img { width: 100%; height: 100%; object-fit: contain; border-radius: 10px;}
         
-        .upi-id-box { text-align: center; background: rgba(56, 189, 248, 0.1); padding: 12px; border-radius: 10px; border: 1px solid #38bdf8; margin-bottom: 25px; }
-        .upi-value { font-size: 18px; font-weight: 700; color: #38bdf8; }
+        .upi-id-box { background: rgba(56, 189, 248, 0.05); padding: 15px; border-radius: 12px; border: 1px solid rgba(56, 189, 248, 0.3); margin-bottom: 25px; }
+        .upi-value { font-size: 20px; font-weight: 800; color: #38bdf8; letter-spacing: 1px; margin-top: 5px;}
 
-        .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { display: block; color: #cbd5e1; font-size: 13px; margin-bottom: 5px; }
-        .input-group input { width: 100%; padding: 12px; border-radius: 10px; background: transparent; border: 1px solid #334155; color: #fff; outline: none; font-size: 14px; }
-        .input-group input:focus { border-color: #38bdf8; }
+        .input-group { margin-bottom: 18px; text-align: left; }
+        .input-group label { display: block; color: #cbd5e1; font-size: 13px; margin-bottom: 8px; font-weight: 500;}
+        .input-group input { width: 100%; padding: 14px; border-radius: 12px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; outline: none; font-size: 14px; transition: 0.3s; }
+        .input-group input:focus { border-color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); background: rgba(15, 23, 42, 0.9);}
+
+        /* Buttons in Profile */
+        .support-btn { width: 100%; padding: 14px; border-radius: 12px; background: rgba(56, 189, 248, 0.1); border: 1px solid #38bdf8; color: #38bdf8; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 25px; display: block; text-decoration: none; transition: 0.3s;}
+        .support-btn:hover { background: #38bdf8; color: #0f172a; }
+        .logout-btn-full { width: 100%; padding: 14px; border: 1px solid rgba(239, 68, 68, 0.5); border-radius: 12px; background: rgba(239, 68, 68, 0.05); color: #ef4444; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 15px; display: block; text-decoration: none; transition: 0.3s;}
+        .logout-btn-full:hover { background: #ef4444; color: #fff; }
 
         /* MODAL */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s ease; padding: 20px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s ease; padding: 20px; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background-color: #172134; width: 100%; max-width: 400px; border-radius: 20px; padding: 25px; border: 1px solid #38bdf8; position: relative; max-height: 90vh; overflow-y: auto; }
-        .close-btn { position: absolute; top: 15px; right: 20px; color: #94a3b8; font-size: 24px; font-weight: bold; cursor: pointer; }
-        .modal-title { font-size: 22px; font-weight: 800; color: #38bdf8; margin-bottom: 10px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
-        .modal-price-tag { font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 20px; }
+        .modal-content { width: 100%; max-width: 400px; padding: 30px; position: relative; max-height: 90vh; overflow-y: auto; }
+        .close-btn { position: absolute; top: 15px; right: 20px; color: #94a3b8; font-size: 28px; font-weight: bold; cursor: pointer; transition: 0.3s;}
+        .close-btn:hover { color: #ef4444; }
+        .modal-title { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+        .modal-price-tag { font-size: 28px; font-weight: 800; color: #38bdf8; margin-bottom: 20px; text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);}
         
         /* BOTTOM NAV */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #172134; border-top: 1px solid #334155; display: flex; justify-content: space-around; padding: 12px 0; z-index: 100; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: #64748b; cursor: pointer; font-size: 12px; font-weight: 500; width: 33%; }
-        .nav-item svg { width: 24px; height: 24px; fill: #64748b; margin-bottom: 4px; }
-        .nav-item.active { color: #38bdf8; } .nav-item.active svg { fill: #38bdf8; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-around; padding: 12px 0; z-index: 100; padding-bottom: calc(12px + env(safe-area-inset-bottom));}
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: #64748b; cursor: pointer; font-size: 12px; font-weight: 600; width: 33%; transition: 0.3s;}
+        .nav-item svg { width: 24px; height: 24px; fill: #64748b; margin-bottom: 4px; transition: 0.3s;}
+        .nav-item.active { color: #38bdf8; } .nav-item.active svg { fill: #38bdf8; filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.5));}
 
         .hidden { display: none !important; }
         .fade-in { animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .dev-tag { text-align: center; color: #64748b; font-size: 12px; margin-top: 30px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .dev-tag { text-align: center; color: #64748b; font-size: 12px; margin-top: 40px; }
         .dev-tag span { font-weight: 700; color: #38bdf8; }
     </style>
 </head>
@@ -85,89 +111,115 @@
         <div id="home-section" class="fade-in">
             <div class="header-section">
                 <h1>Glory Store</h1>
-                <p>Purchase premium glory instantly.</p>
+                <p>Premium glory boost with fast delivery.</p>
             </div>
             <div class="packages-grid">
-                <div class="package-card">
+                <div class="package-card glass-panel">
                     <div class="glory-amount">5k Glory</div>
                     <div class="price-tag"><span class="price-currency">₹</span>70</div>
                     <button class="buy-btn" onclick="openModal('5k Glory', 70)">Buy Now</button>
                 </div>
-                <div class="package-card">
+                <div class="package-card glass-panel">
                     <div class="glory-amount">10k Glory</div>
                     <div class="price-tag"><span class="price-currency">₹</span>110</div>
                     <button class="buy-btn" onclick="openModal('10k Glory', 110)">Buy Now</button>
                 </div>
-                <div class="package-card">
+                <div class="package-card glass-panel">
                     <div class="glory-amount">20k Glory</div>
                     <div class="price-tag"><span class="price-currency">₹</span>220</div>
                     <button class="buy-btn" onclick="openModal('20k Glory', 220)">Buy Now</button>
                 </div>
-                <div class="package-card">
+                <div class="package-card glass-panel">
                     <div class="glory-amount">50k - 5 Lakh</div>
                     <div class="price-tag"><span class="price-currency">₹</span>330</div>
                     <button class="buy-btn" onclick="openModal('50k - 5 Lakh', 330)">Buy Now</button>
                 </div>
-                <div class="package-card">
+                <div class="package-card glass-panel">
                     <div class="badge-value">VIP</div>
                     <div class="glory-amount">7 Level Glory</div>
                     <div class="price-tag"><span class="price-currency">₹</span>550</div>
                     <button class="buy-btn" onclick="openModal('7 Level Glory', 550)">Buy Now</button>
+                </div>
+                <div class="package-card glass-panel" style="border: 1px solid rgba(245, 158, 11, 0.4);">
+                    <div class="badge-value badge-max">BEST</div>
+                    <div class="glory-amount" style="color: #f59e0b;">MAX GLORY</div>
+                    <div class="price-tag" style="color: #fbbf24; text-shadow: 0 0 15px rgba(245, 158, 11, 0.3);"><span class="price-currency">₹</span>1100</div>
+                    <button class="buy-btn" style="background: linear-gradient(90deg, #d97706 0%, #b45309 100%); box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);" onclick="openModal('MAX GLORY', 1100)">Buy Now</button>
                 </div>
             </div>
         </div>
 
         <div id="purchases-section" class="hidden">
             <div class="header-section">
-                <h1>My Purchases</h1>
-                <p>Track your order status here.</p>
+                <h1>History</h1>
+                <p>Track your deposits and orders.</p>
             </div>
             
+            <div class="history-title">Wallet Deposits</div>
+            {% if deposits %}
+                {% for dep in deposits %}
+                <div class="order-card glass-panel">
+                    <div class="order-header">
+                        <div class="order-title">Fund Added</div>
+                        <div class="order-price">₹{{ dep.amount }}</div>
+                    </div>
+                    <div class="order-details">
+                        <div>UTR: {{ dep.utr }}</div>
+                        <div class="status status-{{ dep.status | lower }}">{{ dep.status }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; color: #64748b; font-size: 13px; margin-bottom: 20px;">No deposit history found.</div>
+            {% endif %}
+
+            <div class="history-title">Glory Purchases</div>
             {% if orders %}
                 {% for order in orders %}
-                <div class="order-card">
+                <div class="order-card glass-panel">
                     <div class="order-header">
                         <div class="order-title">{{ order.package }}</div>
                         <div class="order-price">₹{{ order.price }}</div>
                     </div>
                     <div class="order-details">
                         <div>UID: {{ order.guild_uid }}</div>
-                        <div class="status status-processing">{{ order.status }}</div>
+                        <div class="status status-{{ order.status | lower }}">{{ order.status }}</div>
                     </div>
                 </div>
                 {% endfor %}
             {% else %}
-                <div style="text-align: center; color: #94a3b8; padding: 30px;">
-                    You have no orders yet. Buy some glory!
-                </div>
+                <div style="text-align: center; color: #64748b; font-size: 13px;">No glory orders yet.</div>
             {% endif %}
         </div>
 
         <div id="profile-section" class="hidden">
             <div class="header-section">
-                <h1>Add Funds & Profile</h1>
-                <p>Deposit money to your wallet to buy glory.</p>
+                <h1>Add Funds</h1>
+                <p>Deposit to your wallet automatically.</p>
             </div>
-            <div class="deposit-box">
+            <div class="deposit-box glass-panel">
                 <div class="qr-placeholder">
                     <img src="/static/qr.jpg" alt="QR Code" onerror="this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=sita9511@ptyes&pn=SahilxGlory';">
                 </div>
 
                 <div class="upi-id-box">
-                    <div style="font-size: 14px; color: #94a3b8;">Or Pay via UPI ID</div>
+                    <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; font-weight: 600;">Official UPI ID</div>
                     <div class="upi-value">sita9511@ptyes</div>
                 </div>
                 <form method="POST" action="/dashboard">
                     <div class="input-group">
                         <label>Amount Paid (₹)</label>
-                        <input type="number" name="amount" placeholder="Enter amount" required>
+                        <input type="number" name="amount" placeholder="Enter deposited amount" required>
                     </div>
                     <div class="input-group">
-                        <label>UTR / Reference Number (12 Digits)</label>
-                        <input type="text" name="utr" placeholder="e.g. 312345678901" required>
+                        <label>UTR / Reference No (12 Digits)</label>
+                        <input type="text" name="utr" placeholder="e.g. 312345678901" required minlength="12" maxlength="12">
                     </div>
                     <button type="submit" class="buy-btn">Submit Request</button>
                 </form>
+
+                <a href="https://t.me/Primesahil1251012" target="_blank" class="support-btn">📞 Contact Support (Telegram)</a>
+                
                 <a href="/logout" class="logout-btn-full">Log Out</a>
             </div>
         </div>
@@ -177,32 +229,32 @@
 
     <div class="bottom-nav">
         <div class="nav-item active" id="nav-home" onclick="switchTab('home')"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Home</div>
-        <div class="nav-item" id="nav-purchases" onclick="switchTab('purchases')"><svg viewBox="0 0 24 24"><path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12zm-7-8c-1.66 0-3-1.34-3-3H7c0 2.76 2.24 5 5 5s5-2.24 5-5h-2c0 1.66-1.34 3-3 3z"/></svg>Purchases</div>
+        <div class="nav-item" id="nav-purchases" onclick="switchTab('purchases')"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>History</div>
         <div class="nav-item" id="nav-profile" onclick="switchTab('profile')"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Profile</div>
     </div>
 
     <div class="modal-overlay" id="purchaseModal">
-        <div class="modal-content">
+        <div class="modal-content glass-panel">
             <div class="close-btn" onclick="closeModal()">&times;</div>
             <div id="modal-step-1">
                 <div class="modal-title" id="m-title">Package Name</div>
                 <div class="modal-price-tag" id="m-price">₹0</div>
-                <div style="background: rgba(56, 189, 248, 0.1); padding: 10px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
-                    <span style="color: #94a3b8; font-size: 12px;">Your Balance</span><br>
-                    <span style="color: #38bdf8; font-weight: bold; font-size: 16px;" id="m-balance">₹0.00</span>
+                <div style="background: rgba(15, 23, 42, 0.6); padding: 12px; border-radius: 12px; margin-bottom: 25px; text-align: center; border: 1px solid rgba(255,255,255,0.05);">
+                    <span style="color: #94a3b8; font-size: 13px; font-weight: 500;">Wallet Balance</span><br>
+                    <span style="color: #38bdf8; font-weight: 800; font-size: 18px;" id="m-balance">₹0.00</span>
                 </div>
-                <button class="buy-btn" id="continueBtn" onclick="showFormStep()">Continue</button>
+                <button class="buy-btn" id="continueBtn" onclick="showFormStep()">Continue to Details</button>
             </div>
             <div id="modal-step-2" class="hidden">
-                <div class="modal-title">Enter Details</div>
+                <div class="modal-title" style="font-size: 20px;">Enter Details</div>
                 <form method="POST" action="/dashboard">
                     <input type="hidden" name="package_name" id="hidden-pkg-name">
                     <input type="hidden" name="package_price" id="hidden-pkg-price">
                     <div class="input-group"><label>Guild UID</label><input type="text" name="guild_uid" required></div>
                     <div class="input-group"><label>Guild Name</label><input type="text" name="guild_name" required></div>
-                    <div class="input-group"><label>Telegram Username</label><input type="text" name="tg_username" required></div>
-                    <div class="input-group"><label>Phone Number</label><input type="number" name="phone_number" required></div>
-                    <button type="submit" class="buy-btn">Submit Order</button>
+                    <div class="input-group"><label>Telegram Username</label><input type="text" name="tg_username" required placeholder="@username"></div>
+                    <div class="input-group"><label>WhatsApp Number</label><input type="number" name="phone_number" required></div>
+                    <button type="submit" class="buy-btn" style="background: #10b981; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);">Submit Order</button>
                 </form>
             </div>
         </div>
@@ -237,7 +289,7 @@
 
             let btn = document.getElementById('continueBtn');
             if (userWalletBalance >= price) {
-                btn.innerText = "Continue";
+                btn.innerText = "Continue to Details";
                 btn.classList.remove('disabled-btn');
                 btn.disabled = false;
             } else {
